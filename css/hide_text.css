@@ -1,0 +1,27 @@
+.single {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.more {
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* 
+还可以使用伪元素的方式，利用一个节点去遮挡超出部分，且伪元素内容为 ...
+p::after {
+	content: "\02026";      
+	position:absolute;
+	bottom:0;
+	right:0;
+	padding-left:40px;
+	background:-webkit-linear-gradient(left,transparent,#fff 55%);
+	background:-o-linear-gradient(right,transparent,#fff 55%);
+	background:-moz-linear-gradient(right,transparent,#fff 55%);
+	background:linear-gradient(to right,transparent,#fff 55%);
+}
+*/
