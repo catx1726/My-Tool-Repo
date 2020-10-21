@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PromiseAll并发测试</title>
+    <title>继发和异步</title>
     <link rel="stylesheet" href="../css/main.css" />
     <link
       href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.css"
@@ -55,54 +55,51 @@
   </head>
   <body>
     <main class="main_container m-flex flex-jc-center flex-an-center flex-dir-col">
-      <h4>起因:用 Promise 实现函数组合??!</h4>
-      <h1>函数组合一般是同步，而 Promise 是异步，不过可以通过 await 实现同步的</h1>
-      <pre>
-        <code>
-          async function fn1() {
-            return await new Promise((resolve, reject)=> {
-              resolve('fn1 ok!')
-            })
-          }
-
-          async function fn2() {
-            return
-            await 'fn2 ok!'
-          }
-          
-          Promise.race([fn1, fn2]).then((val) => {
-            console.log('race:', val)
-          })
-
-          Promise.all([fn1, fn2]).then((val) => {
-            console.log('all:', val)
-          })
-        </code>
-      </pre>
+      <h2>继发和异步</h2>
+      <h4>函数reqOne()，完成之后才能调用 reqTwo()</h4>
+      <h4>实现方式一，循环</h4>
+      <h4>实现方式二，函数组合</h4>
     </main>
   </body>
   <script>
-    /* 
-      查看控制器可以得出，抛出异常时 fn2 照样执行了，所以说明是并发 
+    /*
+      查看控制器可以得出，抛出异常后，reqTwo 没有继续发起请求，说名是继发
     */
-    let str = ''
-    async function fn1() {
-      return await new Promise((resolve, reject) => {
-        throw new Error('one error')
-        str = 'fn1 ok'
-        console.log('fn1 done!')
-        resolve('fn1 ok!')
-      })
+    let urls = [
+      'https://tse1-mm.cn.bing.net/th/id/OIP.S19cENn0MaOaS_DwBqBrbAHaE6?pid=Api&rs=1',
+      'https://tse1-mm.cn.bing.net/th/id/OIP.FM9a5hrdTWFVVpMGyq_LUgHaE8?pid=Api&rs=1'
+    ]
+    let res = ''
+    async function reqOne() {
+      // throw new Error('one error')
+      res = await fetch(urls[0])
+      console.log('reqOne 完成，并且返回了 res!')
+      return
     }
-    async function fn2() {
-      console.log('fn2 接收到:', str)
-      return 'fn2 ok!'
+    async function reqTwo() {
+      // throw new Error('two error')
+      await fetch(urls[1] + res)
+      console.log('reqTwo 完成，并且可以使用 res!', res)
+      return
     }
-    Promise.race([fn1(), fn2()]).then((val) => {
-      console.log('race:', val)
-    })
-    Promise.all([fn1(), fn2()]).then((val) => {
-      console.log('all:', val)
-    })
+
+    async function loopReq(...fns) {
+      console.log('当前需要继发的函数有:', fns)
+      let len = fns.length
+      for (fn of fns) {
+        await fn()
+      }
+    }
+
+    // TODO 函数组合如何实现继发，这里依然是 并发
+    // function compose(...fns) {
+    //   return function (x) {
+    //     return fns.reduce((arg, fn) => {
+    //       return fn(arg)
+    //     }, x)
+    //   }
+    // }
+    // compose(reqOne, reqTwo)()
+    loopReq(reqOne, reqTwo)
   </script>
 </html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PromiseFor</title>
+    <title>并发和异步</title>
     <link href="../css/main.css" rel="stylesheet" />
     <link
       href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.css"
@@ -62,19 +62,20 @@
   <script>
     const urls = [
       'https://tse1-mm.cn.bing.net/th/id/OIP.S19cENn0MaOaS_DwBqBrbAHaE6?pid=Api&rs=1',
-      'https://tse1-mm.cn.bing.net/th/id/OIP.FM9a5hrdTWFVVpMGyq_LUgHaE8?pid=Api&rs=1'
+      'https://tse1-mm.cn.bing.net/th/id/OIP.FM9a5hrdTWFVVpMGyq_LUgHaE8?pid=Api&rs=2'
     ]
     let promiseList = []
     async function sendReq(urls) {
       promiseList = urls.map(async (url) => {
+        // throw new Error('one error')
         const res = await fetch(url)
         return res
       })
       showRes(promiseList)
     }
     async function showRes(promiseList) {
-      for await (const item of promiseList) {
-        console.log('showRes:', item)
+      for (const item of promiseList) {
+        console.log('showRes:', await item)
       }
     }
 
