@@ -57,8 +57,7 @@
     <main class="main_container m-flex flex-jc-center flex-an-center flex-dir-col">
       <h2>继发和异步</h2>
       <h4>函数reqOne()，完成之后才能调用 reqTwo()</h4>
-      <h4>实现方式一，循环</h4>
-      <h4>实现方式二，函数组合</h4>
+      <h4>实现方式，循环</h4>
     </main>
   </body>
   <script>
@@ -73,13 +72,13 @@
     async function reqOne() {
       // throw new Error('one error')
       res = await fetch(urls[0])
-      console.log('reqOne 完成，并且返回了 res!')
+      console.log('reqOne 完成!')
       return
     }
     async function reqTwo() {
       // throw new Error('two error')
       await fetch(urls[1] + res)
-      console.log('reqTwo 完成，并且可以使用 res!', res)
+      console.log('reqTwo 完成!', res)
       return
     }
 
@@ -91,15 +90,29 @@
       }
     }
 
-    // TODO 函数组合如何实现继发，这里依然是 并发
-    // function compose(...fns) {
-    //   return function (x) {
-    //     return fns.reduce((arg, fn) => {
-    //       return fn(arg)
-    //     }, x)
-    //   }
-    // }
-    // compose(reqOne, reqTwo)()
-    loopReq(reqOne, reqTwo)
+    async function reqThree() {
+      res = await fetch(urls[0])
+      console.log('reqThree 完成!，我的顺序不可信!')
+      return
+    }
+    async function reqFour() {
+      console.log('reqFour 完成!，我的顺序不可信!')
+      return await fetch(urls[1] + res)
+    }
+    async function reqFive() {
+      console.log('reqFive 完成!，我的顺序不可信!')
+      return await fetch(urls[1] + res)
+    }
+
+    function compose(...fns) {
+      return function (x) {
+        return fns.reduce(async (arg, fn) => {
+          await arg
+          return fn(arg)
+        }, x)
+      }
+    }
+    compose(reqThree, reqFour, reqFive)()
+    // loopReq(reqOne, reqTwo)
   </script>
 </html>
