@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>并发和异步</title>
+    <link href="../css/main.css" rel="stylesheet" />
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        transition: all 0.3s ease;
+      }
+      body {
+        /* DES 就算超出 main 也不会很突兀 ，因为 Body 有底色 */
+        background-color: #126993;
+        font-family: Modak, source-han-serif-sc, serif, 'Nunito', 'Lato', consolas;
+      }
+      .main_container {
+        min-height: 100vh;
+        color: white;
+        font-size: 1.6rem;
+        user-select: none;
+      }
+      .waterfall_container {
+        min-height: 50%;
+        min-width: 50vw;
+        max-width: 500px;
+        padding: 0 5px;
+        box-sizing: border-box;
+        background-color: #426a5b;
+      }
+      .img-list {
+        list-style: none;
+      }
+      .img-list .item {
+        margin: 10px 0;
+        padding: 3px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        border: 1px solid white;
+        background-color: white;
+      }
+      .img-list img {
+        height: 100px;
+        filter: brightness(0.8);
+        vertical-align: middle;
+        object-fit: contain;
+      }
+      .img-list img:hover {
+        filter: brightness(1);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main_container m-flex flex-jc-center flex-an-center flex-dir-col">
+      节流和防抖
+      <button class="btn throttleOne" type="button">throttleOne</button>
+      <button class="btn throttleTwo" type="button">throttleTwo</button>
+      <button class="btn debounce" type="button">debounce</button>
+    </main>
+  </body>
+  <script>
+    /* 节流，控制执行的频率 */
+    // 1. 时间戳
+    function throttleOne(fn, delay) {
+      let prev = 0
+      return function () {
+        let now = Number(new Date()),
+          space = now - prev
+        if (space > delay) {
+          fn.call(this, arguments)
+          prev = now
+        }
+      }
+    }
+    // 2. 定时器
+    function throttleTwo(fn, delay) {
+      let timer = null,
+        lock = true
+      return function () {
+        if (!lock) return
+
+        lock = false
+
+        timer = setTimeout(() => {
+          fn.call(this, arguments)
+          clearTimeout(timer)
+          lock = true
+        }, delay)
+      }
+    }
+
+    /* 防抖，单位时间内，只执行一次 */
+    function debounce(fn, delay) {
+      let timer = null
+      return () => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          fn.call(this, arguments)
+        }, delay)
+      }
+    }
+
+    const DOC = document
+    let throttleOneBtn = DOC.querySelector('.throttleOne'),
+      throttleTwoBtn = DOC.querySelector('.throttleTwo'),
+      debounceBtn = DOC.querySelector('.debounce')
+
+    throttleOneBtn.addEventListener(
+      'click',
+      throttleOne(() => {
+        console.log('throttleOne')
+      }, 500),
+      true
+    )
+    throttleTwoBtn.addEventListener(
+      'click',
+      throttleTwo(() => {
+        console.log('throttleTwo')
+      }, 500),
+      true
+    )
+    debounceBtn.addEventListener(
+      'click',
+      debounce(() => {
+        console.log('debounce')
+      }, 500),
+      true
+    )
+  </script>
+</html>
