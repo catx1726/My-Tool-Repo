@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>冒泡排序</title>
+    <link href="../css/main.css" rel="stylesheet" />
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        transition: all 0.3s ease;
+      }
+      body {
+        /* DES 就算超出 main 也不会很突兀 ，因为 Body 有底色 */
+        background-color: #126993;
+        font-family: Modak, source-han-serif-sc, serif, 'Nunito', 'Lato', consolas;
+      }
+      .main_container {
+        min-height: 100vh;
+        color: white;
+        font-size: 1.6rem;
+        user-select: none;
+      }
+      .waterfall_container {
+        min-height: 50%;
+        min-width: 50vw;
+        max-width: 500px;
+        padding: 0 5px;
+        box-sizing: border-box;
+        background-color: #426a5b;
+      }
+      .img-list {
+        list-style: none;
+      }
+      .img-list .item {
+        margin: 10px 0;
+        padding: 3px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        border: 1px solid white;
+        background-color: white;
+      }
+      .img-list img {
+        height: 100px;
+        filter: brightness(0.8);
+        vertical-align: middle;
+        object-fit: contain;
+      }
+      .img-list img:hover {
+        filter: brightness(1);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main_container m-flex flex-jc-center flex-an-center flex-dir-col">冒泡排序</main>
+  </body>
+  <script>
+    let arr = [1, 25, 2, 1, 2, 5]
+
+    function bubbleSort(arr) {
+      let cur = null
+      for (let i = 0, len = arr.length; i < len - 1; i++) {
+        for (let j = 0; j < len - i - 1; j++) {
+          if (arr[j] > arr[j + 1]) {
+            cur = arr[j + 1]
+            arr[j + 1] = arr[j]
+            arr[j] = cur
+          }
+        }
+      }
+      console.log('bubbleSort 排序后:', arr)
+      return arr
+    }
+    bubbleSort(arr)
+
+    function selectionSort(arr) {
+      let minIndex = 0,
+        cur = null
+      for (let i = 0, len = arr.length; i < len - 1; i++) {
+        minIndex = i
+        for (let j = i + 1; j < len; j++) {
+          if (arr[j] < arr[minIndex]) {
+            minIndex = j
+          }
+        }
+        cur = arr[i]
+        arr[i] = arr[minIndex]
+        arr[minIndex] = cur
+      }
+      console.log('selectionSort 排序后:', arr)
+      return arr
+    }
+    selectionSort(arr)
+  </script>
+</html>
