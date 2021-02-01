@@ -8,19 +8,17 @@
   <body>
     <script>
       async function sleepFn(sleepTime) {
-        console.log('sleep:', sleepTime)
+        console.log(' sleep start:', Date.now(), ` sleepTime:${sleepTime}`)
         return new Promise((resolve, reject) => {
           setTimeout(() => {
+            console.log('sleep end:', Date.now())
             return resolve()
           }, sleepTime)
         })
       }
 
       async function computeSomeThingFn() {
-        const nowTime = Date.now()
-        console.log('start:', nowTime)
         await sleepFn(3000)
-        console.log('end:', Date.now())
       }
 
       computeSomeThingFn()
