@@ -59,14 +59,15 @@
   <script>
     let arr = [1, 25, 2, 1, 2, 5]
 
+    // 找最大
     function bubbleSort(arr) {
-      let cur = null
-      for (let i = 0, len = arr.length; i < len - 1; i++) {
-        for (let j = 0; j < len - i - 1; j++) {
+      let curMin = null
+      for (let i = 0, len = arr.length - 1; i < len; i++) {
+        for (let j = 0; j < len - i; j++) {
           if (arr[j] > arr[j + 1]) {
-            cur = arr[j + 1]
+            curMin = arr[j + 1]
             arr[j + 1] = arr[j]
-            arr[j] = cur
+            arr[j] = curMin
           }
         }
       }
@@ -75,19 +76,20 @@
     }
     bubbleSort(arr)
 
+    // 找最小
     function selectionSort(arr) {
       let minIndex = 0,
-        cur = null
-      for (let i = 0, len = arr.length; i < len - 1; i++) {
+        big = null
+      for (let i = 0, len = arr.length - 1; i < len; i++) {
         minIndex = i
         for (let j = i + 1; j < len; j++) {
           if (arr[j] < arr[minIndex]) {
             minIndex = j
           }
         }
-        cur = arr[i]
+        big = arr[i]
         arr[i] = arr[minIndex]
-        arr[minIndex] = cur
+        arr[minIndex] = big
       }
       console.log('selectionSort 排序后:', arr)
       return arr

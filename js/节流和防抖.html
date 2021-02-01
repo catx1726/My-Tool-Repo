@@ -62,7 +62,7 @@
     </main>
   </body>
   <script>
-    /* 节流，控制执行的频率 */
+    /* 节流，控制执行的频率，N次触发，执行 N / delay 次 */
     // 1. 时间戳
     function throttleOne(fn, delay) {
       let prev = 0
@@ -92,7 +92,7 @@
       }
     }
 
-    /* 防抖，单位时间内，只执行一次 */
+    /* 防抖，在用户停止触发后得 delay 后 执行，N次触发，只执行最后一次 */
     function debounce(fn, delay) {
       let timer = null
       return () => {

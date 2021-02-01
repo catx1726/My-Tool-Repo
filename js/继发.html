@@ -92,22 +92,23 @@
 
     async function reqThree(arg) {
       res = await fetch(urls[0])
-      console.log('reqThree 完成!，我的顺序不可信!', arg)
+      console.log('reqThree 完成!，我的顺序不可信!', await arg)
       return arg + ',reqThree return'
     }
     async function reqFour(arg) {
       await fetch(urls[1])
-      console.log('reqFour 完成!，我的顺序不可信!', arg)
+      console.log('reqFour 完成!，我的顺序不可信!', await arg)
       return (await arg) + ',reqFour return'
     }
     async function reqFive(arg) {
       await fetch(urls[1])
-      console.log('reqFive 完成!，我的顺序不可信!', arg)
+      console.log('reqFive 完成!，我的顺序不可信!', await arg)
       return (await arg) + ',reqFive return'
     }
 
     function compose(...fns) {
       return async function (x) {
+        console.log('xxxxxxxxx', x)
         return await fns.reduce(async (arg, fn) => {
           await arg
           return fn(arg)

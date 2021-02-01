@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>暂停函数</title>
+  </head>
+  <body>
+    <script>
+      async function sleepFn(sleepTime) {
+        console.log('sleep:', sleepTime)
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            return resolve()
+          }, sleepTime)
+        })
+      }
+
+      async function computeSomeThingFn() {
+        const nowTime = Date.now()
+        console.log('start:', nowTime)
+        await sleepFn(3000)
+        console.log('end:', Date.now())
+      }
+
+      computeSomeThingFn()
+    </script>
+  </body>
+</html>

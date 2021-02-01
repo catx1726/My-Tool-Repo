@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>并发按序接收</title>
+  </head>
+  <body>
+    <script>
+      function promise(tag) {
+        // 1-5s
+        let delay = Math.random() * (5000 - 1000) + 1000
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(`${tag} ok!`)
+            console.log(`${tag} finish!`)
+          }, delay)
+        })
+      }
+
+      async function handlePromise(num) {
+        let promiseList = []
+        for (let i = 0; i < num; i++) {
+          let tag = 'promise-' + i
+          promiseList.push(promise(tag))
+        }
+        for (const item of promiseList) {
+          console.log(await item)
+        }
+      }
+
+      let num = 5
+
+      handlePromise(num)
+    </script>
+  </body>
+</html>

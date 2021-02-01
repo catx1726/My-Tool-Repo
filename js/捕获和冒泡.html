@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>捕获和冒泡</title>
+    <style>
+      .parent {
+        width: 100px;
+        height: 100px;
+        background-color: aquamarine;
+      }
+      .son {
+        height: 50px;
+        width: 50px;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      <p class="son">123</p>
+    </div>
+  </body>
+  <script>
+    const WIN = window
+    const DOC = document
+    let div = DOC.querySelector('.parent')
+    let p = DOC.querySelector('.son')
+
+    /* true 是捕获阶段执行，点击 p 输出 parent -> son */
+    div.addEventListener(
+      'click',
+      () => {
+        console.log('parent')
+      },
+      true
+    )
+
+    p.addEventListener(
+      'click',
+      () => {
+        console.log('son')
+      },
+      true
+    )
+
+    /* false 是冒泡阶段执行，点击 p 输出 son -> parent*/
+    // div.addEventListener(
+    //   'click',
+    //   () => {
+    //     console.log('parent')
+    //   },
+    //   false
+    // )
+    // p.addEventListener(
+    //   'click',
+    //   () => {
+    //     console.log('son')
+    //   },
+    //   false
+    // )
+  </script>
+</html>
