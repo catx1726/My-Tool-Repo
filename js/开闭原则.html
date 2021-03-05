@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>开闭原则</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      body {
+        background-color: var(--bg-2021);
+        font-family: consolas, source-han-serif-sc, serif, 'Nunito', 'Lato';
+      }
+      body * {
+        transition: all 0.3s ease;
+      }
+      .main_container {
+        height: 100%;
+        color: white;
+        font-size: 10vh;
+        font-weight: bold;
+        min-height: 100vh;
+        position: relative;
+        --base-w-h: 100px;
+        --base-anim-duration: 2.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- B-E_M -->
+    <main class="main_container m-flex flex-dir-col flex-jc-center flex-an-center"></main>
+  </body>
+  <script>
+    /* 开闭原则：对扩展开放，对修改关闭 */
+    const WIN = window
+    const DOC = document
+    WIN.PAGE = {}
+    ;(function (WIN, DOC, PAGE) {
+      let OCP = {}
+      let CONSOLE_TAG = 'page OCP'
+
+      function createDIV(content, classList) {
+        console.log(`${CONSOLE_TAG} createDIV`)
+        let div = DOC.createElement('div')
+        div.innerText = content
+        div.classList.add(...classList)
+        return div
+      }
+
+      let view = {
+        render: function (parentBox, domList) {
+          console.log(`${CONSOLE_TAG} view render`)
+          let fragment = DOC.createDocumentFragment()
+          domList.forEach((i) => {
+            fragment.appendChild(createDIV(i.content, i.classList))
+          })
+          parentBox.appendChild(fragment)
+        }
+      }
+      WIN.PAGE.OCP = {
+        render: view.render
+      }
+    })(WIN, DOC, PAGE)
+
+    const domListInfo = [
+      { content: 'dom 1 content', classList: ['mdiv'] },
+      { content: 'dom 2 content', classList: ['mdiv'] }
+    ]
+
+    let parent = DOC.querySelector('.main_container')
+
+    WIN.PAGE.OCP.render(parent, domListInfo)
+
+    console.log(WIN.PAGE)
+  </script>
+</html>

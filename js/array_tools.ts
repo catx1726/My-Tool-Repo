@@ -5,7 +5,7 @@
 let pureArray = [...new Set([1, 1, 2, 3, 4, 5])]
 console.log('duplicate basic types pureArray:', pureArray)
 
-// 数组对象去重方法1——filter Map
+// 对象数组去重方法1——filter Map
 let arr = [
   { name: 'cad', id: 3 },
   { name: 'cad', id: 3 }

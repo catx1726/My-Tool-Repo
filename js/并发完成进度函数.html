@@ -38,7 +38,11 @@
         let timer = setInterval(() => {
           console.log('promiseList progress state.resolveNums:', obj.resolveNums)
           console.log('promiseList progress state.rejectNums:', obj.rejectNums)
-          if (obj.resolveNums === obj.amount || obj.resolveNums + obj.rejectNums === obj.amount) {
+          if (
+            obj.resolveNums === obj.amount ||
+            obj.rejectNums === obj.amount ||
+            obj.resolveNums + obj.rejectNums === obj.amount
+          ) {
             clearInterval(timer)
             timer = null
           }
