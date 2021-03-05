@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cryptography</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      body {
+        background-color: var(--bg-2021);
+        font-family: consolas, source-han-serif-sc, serif, 'Nunito', 'Lato';
+      }
+      body * {
+        transition: all 0.3s ease;
+      }
+      .main_container {
+        height: 100%;
+        color: pink;
+        font-size: 10vh;
+        font-weight: bold;
+        min-height: 100vh;
+        position: relative;
+        --base-w-h: 100px;
+        --base-anim-duration: 2.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main_container m-flex flex-jc-center flex-an-center"></main>
+  </body>
+  <script>
+    // FIXME 0-1 以及 负数部分
+    const DOC = document
+    const mainBox = DOC.querySelector('.main_container')
+    let cryptoPage = { name: 'cryptoPage' }
+
+    ;(function (DOC, PAGE) {
+      console.log('cryptoPage iife!', PAGE)
+
+      function handleCeil(end) {
+        return Math.ceil(end / 10)
+      }
+
+      function realRandom(start, end) {
+        let randomArray = new Uint32Array(1)
+        let max = 0xffffffff
+        let forward = handleCeil(end)
+        let result = (crypto.getRandomValues(randomArray)[0] / max) * forward * 10
+
+        // [0,1)
+        // [0,1]
+        if (result < start) return realRandom(start, end)
+        if (result > end) return realRandom(start, end)
+
+        // console.log('realRandom', result.toString().split('.')[0])
+
+        return result.toString().split('.')[0]
+      }
+      PAGE.random = realRandom
+    })(DOC, cryptoPage)
+
+    let randomList = []
+    for (let i = 0; i < 10; i++) {
+      randomList.push(cryptoPage.random(1, 50))
+    }
+
+    mainBox.innerText = randomList.toString()
+  </script>
+</html>
