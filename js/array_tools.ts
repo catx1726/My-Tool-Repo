@@ -21,7 +21,7 @@ console.log('duplicate [Object] filterMapAfterData:', filterMapAfterData)
 /* --------------------------------------------------------------------- */
 // 过滤假值 👍
 // eslint-disable-next-line no-undefined
-let pureArray1 = [null, undefined, '', 1, 2, 3, 4].filter(Boolean)
+let pureArray1 = [null, undefined, '', , 1, 2, 3, 4].filter(Boolean)
 console.log('filter fake value pureArray1:', pureArray1)
 
 // 过滤空值 🐷
@@ -41,7 +41,8 @@ console.log('sort pureArray2:', pureArray2)
 
 /* --------------------------------------------------------------------- */
 // 在数组中获取最大值
-let array = [1, 2, 3, 56, 76, 222]
 let max = (array) => Math.max.apply(null, array)
-console.log('max value in array:', max(array))
+let array = [1, 2, 3, 56, 76, 222]
+let arrryObj = [{ age: '12' }, { age: '11' }]
+console.log('max value in array:', max(array), ' arrayObj:', max(arrryObj.map((i) => i.age)))
 /* --------------------------------------------------------------------- */
