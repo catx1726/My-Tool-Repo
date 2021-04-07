@@ -36,7 +36,12 @@ console.log('filter null value pureArray3:', pureArray3)
 /* --------------------------------------------------------------------- */
 // 排序
 let pureArray2 = [1, 3, 4, 6, 2].sort((a, b) => a - b)
-console.log('sort pureArray2:', pureArray2)
+let pureArrayThree = [
+  { name: 'jack', age: 100 },
+  { name: 'jack', age: 20 },
+  { name: 'cad', age: 10 }
+].sort((a, b) => a.age - b.age)
+console.log('sort pureArray:', pureArray2, pureArrayThree)
 /* --------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------- */
