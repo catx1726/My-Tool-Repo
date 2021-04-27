@@ -11,22 +11,34 @@
         // 1-5s
         let delay = Math.random() * (5000 - 1000) + 1000
         return new Promise((resolve, reject) => {
+          /* request start */
+          console.log(`${tag} start!`)
+
+          /* request reject */
+          if (delay > 3000) return reject(`${tag} reject!`)
+
           setTimeout(() => {
-            resolve(`${tag} ok!`)
-            console.log(`${tag} finish!`)
+            /* request resolve */
+            resolve(`${tag} resolve!`)
           }, delay)
         })
       }
 
       async function handlePromise(num) {
         let promiseList = []
-        for (let i = 0; i < num; i++) {
+        for (let i = 1; i <= num; i++) {
           let tag = 'promise-' + i
           promiseList.push(promise(tag))
         }
         for (const item of promiseList) {
-          console.log(await item)
+          try {
+            console.log('success', await item)
+          } catch (error) {
+            console.log('error:', error, item)
+          }
         }
+        /* could restart reject request */
+        console.log('loop done!')
       }
 
       let num = 5
