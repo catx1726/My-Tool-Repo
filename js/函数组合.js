@@ -1,11 +1,27 @@
-function compose(params, ...fns) {
-  console.log('compose:', params, fns)
+const composeDirHandle = new Map([
+  [
+    'lr',
+    (params, fns) => {
+      fns.forEach((fn) => (params = fn(params)))
+      console.log('lr handle end:', params, fns)
+      return params
+    }
+  ],
+  [
+    'rl',
+    (params, fns) => {
+      fns.reverse()
+      fns.forEach((fn) => (params = fn(params)))
+      console.log('rl handle end:', params, fns)
+      return params
+    }
+  ]
+])
 
-  if (!fns || !fns.length) return
+function compose(params, direction, fns) {
+  if (!fns || !fns.length || !params) return
 
-  fns.forEach((fn) => (params = fn(params)))
-
-  return params
+  return composeDirHandle.get(direction)(params, fns) || 'unknown'
 }
 
 function add(num) {
@@ -16,4 +32,4 @@ function minus(num) {
   return num - 10
 }
 
-console.log(compose(5, add, add, minus))
+console.log(compose(5, 'lr', [add, add, minus]), compose(5, 'rl', [add, add, minus]))
